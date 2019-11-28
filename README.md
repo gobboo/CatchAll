@@ -11,9 +11,11 @@ This system also has a built in dashboard which you can setup by connecting to t
 #### Installation
 
 To begin with first clone this repository:
+
 ` git clone https://github.com/mobles/catchall.git`
 
 Next go into the client and first create a virtual environment to work from:
+
 `virtualenv .env && source .env/bin/activate && pip install -r requirements.txt`
 
 This will also install the requirements for you automatically.
@@ -21,10 +23,12 @@ This will also install the requirements for you automatically.
 Then you'll want to do the same for the server folder.
 
 Once done, first launch the server using
+
 `python main.py`
 This server will do all the facial recognition and will store known faces when a user uploads them, it will also cache them so that on startup it doesn't have to analyze all the faces everytime in launches.
 
 Next head into the client folder again and launch the client:
+
 `python main.py runserver --host 0.0.0.0 --port 80`
 
 This will launch the client on the raspberry pi with the specified IP ( 0.0.0.0 being IPV4 ) and with port 80.
