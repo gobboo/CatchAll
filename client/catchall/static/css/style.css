@@ -1,0 +1,74 @@
+body {
+  background-color: #f7f7f7 ;
+}
+.containr, body, html {
+  height: 100%;
+}
+
+.install-card {
+  width: 620px;
+  padding-bottom: 0px;
+}
+
+.install-card .header {
+  width: 100%;
+  height: 20px;
+  border-radius: 5px 5px 0px 0px;
+  background-color: #4285f4;
+}
+
+.select-fix {
+  margin-top: 0rem;
+}
+
+.align-items-center {
+  align-items: center;
+}
+
+.index-container {
+  padding-top: 100px;
+}
+
+.stat-panel {
+  display: inline-block;
+  vertical-align: middle;
+  height: 64px;
+  width: 64px;
+  background-color: #4285f4;
+}
+
+.stat-panel .stat-icon {
+  line-height: 65px;
+}
+
+.stat-text {
+  margin: auto;
+  margin-top: 5px;
+}
+
+.stat-label {
+  font-weight: 300;
+  font-size: 14px;
+  margin-bottom: 0px;
+}
+
+@media (max-width: 575.98px) {
+  .login-form {
+    margin-left: 6px;
+    margin-right: 6px;
+  }
+
+  .index-container {
+    padding-top: 75px;
+  }
+}
+
+@media (max-width: 768px) {
+  .stat-text {
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+  .stat-label {
+    font-size: 12px;
+  }
+}

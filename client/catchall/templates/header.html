@@ -1,0 +1,41 @@
+<!--Navbar-->
+<nav class="navbar navbar-expand-lg navbar-dark primary-color fixed-top">
+
+  <!-- Navbar brand -->
+  <a class="navbar-brand" href="#">CatchAll</a>
+
+  <!-- Collapse button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#catchNav"
+    aria-controls="catchNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Collapsible content -->
+  <div class="collapse navbar-collapse" id="catchNav">
+
+    <!-- Links -->
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="/">Dashboard
+          <span class="sr-only">(current)</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/feed">Live Feed</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/config">Configuration</a>
+      </li>
+    </ul>
+
+    {% if current_user.is_authenticated %}
+    <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>  
+    </ul>
+    {% endif %}
+    <!-- Links -->
+</nav>
+
+<!-- SideNav slide-out button -->

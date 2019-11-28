@@ -1,0 +1,3 @@
+[console_scripts]
+notify-run = notify_run.cli:main
+

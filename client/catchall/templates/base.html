@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/mdb.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/all.css') }}">
+  
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.4.1.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/addons-pro/stepper.min.js') }}"></script>
+  <!-- Bootstrap tooltips -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+  <!-- Bootstrap core JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <!-- MDB core JavaScript -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/mdb.min.js') }}"></script>
+
+  {% block body %}{% endblock %}
+
+
+  <!-- <script type="text/javascript">
+    $('.button-collapse').sideNav({
+      edge: 'left', // Choose the horizontal origin
+      closeOnClick: false, // Closes side-nav on &lt;a&gt; clicks, useful for Angular/Meteor
+      breakpoint: 1440, // Breakpoint for button collapse
+      MENU_WIDTH: 240, // Width for sidenav
+      timeDurationOpen: 300, // Time duration open menu
+      timeDurationClose: 200, // Time duration open menu
+      timeDurationOverlayOpen: 50, // Time duration open overlay
+      timeDurationOverlayClose: 200, // Time duration close overlay
+      easingOpen: 'easeOutQuad', // Open animation
+      easingClose: 'easeOutCubic', // Close animation
+      showOverlay: true, // Display overflay
+      showCloseButton: false // Append close button into siednav
+    });
+    // SideNav Scrollbar Initialization
+    var sideNavScrollbar = document.querySelector('.custom-scrollbar');
+    var ps = new PerfectScrollbar(sideNavScrollbar);
+  </script> -->
+
+</body>
+</html>

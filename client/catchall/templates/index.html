@@ -1,0 +1,142 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>CatchAll | Dashboard</title>
+{% endblock %}
+
+{% block body %}
+{% include "header.html" %}
+
+{% if current_user.is_authenticated %}
+
+<div class="container index-container">
+    <div class="row">
+      <div class="col-12 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <p class="card-text black-text">Hello, <b>{{ current_user.username }}</b>! Current up time - {{ deviceData.uptime }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-8 mb-3">
+        <div class="card">
+          <div class="card-body">
+            <div class="row mb-3">
+              <div class="col-sm-4">
+                <div class="card text-center justify-content-between flex-row align-items-center">
+                  <div class="stat-panel">
+                      <i class="fas fa-chart-line white-text h2 stat-icon"></i>
+                  </div>
+                  <h3 class="h3-responsive text-center stat-text">
+                      64
+                    <p class="text-muted stat-label">Total rings</p>
+                  </h3>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                  <div class="card text-center justify-content-between flex-row align-items-center">
+                    <div class="stat-panel">
+                        <i class="fas fa-bell white-text h2 stat-icon"></i>
+                    </div>
+                    <h3 class="h3-responsive text-center stat-text">
+                        6
+                      <p class="text-muted stat-label">Todays rings</p>
+                    </h3>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="card text-center justify-content-between flex-row align-items-center">
+                    <div class="stat-panel">
+                        <i class="fas fa-book white-text h2 stat-icon"></i>
+                    </div>
+                    <h3 class="h3-responsive text-center stat-text">
+                        100
+                      <p class="text-muted stat-label">Other data</p>
+                    </h3>
+                  </div>
+                </div>
+            </div>
+
+
+            <h5 class="card-title">Todays Statistics</h5>
+            <canvas id="lineChart"></canvas>
+
+            <h5 class="card-title">Weekly Statistics</h5>
+            <canvas id="weeklyChart"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">Device Information</h5>
+              <p class="card-text">
+                Last boot - {{ deviceData.boot }}<br/>
+                Current uptime - {{ deviceData.uptime }}<br/>
+                Average CPU Usage - {{ deviceData.cpu }}<br/>
+                <br/>
+                Errors - 2<br/>
+                Last Error - 20:56:32 19/06/2019<br/>
+              </p>
+              <a href="#" class="card-link primary-text text-decoration-none">Refresh</a>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var ctxL = document.getElementById("lineChart").getContext('2d');
+    var myLineChart = new Chart(ctxL, {
+      type: 'line',
+      data: {
+        labels: ['0:00', '1:00', '2:00', '3:00', '4:00', '5:00', '6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'],
+        datasets: [
+          {
+            label: "Rings",
+            data: [0,0,0,0,0,0,0,0,0,1,0,2,1,0,0,2,0,0,1,0,0,0,0],
+            backgroundColor: [
+              'rgba(66, 133, 244, .2)',
+            ],
+            borderColor: [
+              '#4285f4',
+            ],
+            borderWidth: 2
+          }
+        ]
+      },
+      options: {
+        responsive: true
+      }
+    });
+  </script>
+
+<script>
+  var ctxL = document.getElementById("weeklyChart").getContext('2d');
+  var myLineChart = new Chart(ctxL, {
+    type: 'line',
+    data: {
+      labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+      datasets: [
+        {
+          label: "Rings",
+          data: [3, 4, 2, 0, 5, 8, 4],
+          backgroundColor: [
+            'rgba(66, 133, 244, .2)',
+          ],
+          borderColor: [
+            '#4285f4',
+          ],
+          borderWidth: 2
+        }
+      ]
+    },
+    options: {
+      responsive: true
+    }
+  });
+</script>
+{% endif %}
+{% endblock %}
+
+

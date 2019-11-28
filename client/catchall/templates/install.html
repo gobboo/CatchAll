@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block head %} 
+<link href="{{ url_for('static', filename='css/addons-pro/stepper.min.css') }}" rel="stylesheet">
+<title>CatchAll | Installer</title> 
+{% endblock %}
+
+{% block body %}
+  <div class="container-fluid" style="height: 100vh;">
+    <div class="d-flex justify-content-center align-items-center" style="height: 100%;">
+      <div class="card install-card">
+        <!--<div class="header"></div>-->
+        <div class="card-body" style="padding-bottom: 0px;">
+          <h4 class="card-title text-center">System Setup</h4>
+              {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                <div class="alert alert-danger text-center mb-0" role="alert">
+                    {% for message in messages %}
+                    {{ message }}
+                    {% endfor %}
+                </div>
+                {% endif %}
+              {% endwith %}
+            <form action="/install" method="POST" id="install-form" class="needs-validation">
+              {{ form.csrf_token }}
+              <ul class="stepper linear horizontal horizontal-fix" style="padding: 2rem 0.5rem 0.5rem; margin-bottom: 0px;" id="install-stepper">
+                <li class="step active">
+                  <div class="step-title waves-effect waves-dark">Options</div>
+                  <div class="step-new-content">
+                    <div class="row">
+                      <div class="md-form col-12 ml-auto">
+                        {{ form.deviceName(class_="validate form-control", minLength=4) }}
+                        {{ form.deviceName.label }}
+                      </div>
+
+                      <div class="md-form col-md-6">
+                        {{ form.adminUsername(class_="validate form-control", minLength=4) }}
+                        {{ form.adminUsername.label }}
+                      </div>
+
+                      <div class="md-form col-md-6">
+                        {{ form.adminPassword(class_="validate form-control", type="password", minLength=8) }}
+                        {{ form.adminPassword.label }}
+                      </div>
+                    </div>
+                    <div class="step-actions">
+                      <button class="waves-effect waves-dark btn btn-sm btn-primary next-step" data-feedback="nextStep">CONTINUE</button>
+                    </div>
+                  </div>
+                </li>
+                <li class="step">
+                  <div class="step-title waves-effect waves-dark">Detection</div>
+                  <div class="step-new-content">
+                    <div class="row">
+                      <div class="col-12 ml-auto">
+                          {{ form.resolutionSelect.label }}
+                          {{ form.resolutionSelect(class_="mdb-select md-form select-fix")}}
+                      </div>
+                      <div class="form-check col-md-6 ml-auto">
+                          {{ form.requiresAuth(class_="form-check-input validation")}}
+                          {{ form.requiresAuth.label }}
+                      </div>
+                    </div>
+                    <div class="step-actions">
+                      <button class="waves-effect waves-dark btn btn-sm btn-primary previous-step">BACK</button>
+                      <button class="waves-effect waves-dark btn btn-sm btn-primary next-step" data-feedback="nextStep">CONTINUE</button>
+                    </div>
+                  </div>
+                </li>
+                <li class="step">
+                  <div class="step-title waves-effect waves-dark">Network</div>
+                  <div class="step-new-content">
+                    <div class="row">
+                      <div class="col-md-6 ml-auto">
+                          {{ form.networkSelection.label }}
+                          {{ form.networkSelection(class_="mdb-select md-form") }}
+                      </div>
+                      <div class="col-md-6 md-form ml-auto">
+                          {{ form.networkPassword(class_="validate form-control", type="password", minLength=4) }}
+                          {{ form.networkPassword.label }}
+                      </div>
+                    </div>
+
+                    <div class="step-actions">
+                        <button class="waves-effect waves-dark btn btn-sm btn-primary previous-step">BACK</button>
+                        <button type="submit" class="btn btn-md btn-primary btn-rounded card-link mt-0 mt-4">Install CatchAll</button>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </form>
+          </form>
+        </div>
+      </div>
+      <!--/.Card-->
+    </div>
+  </div>
+
+  <script>
+    $(document).ready(function () {
+      $('.stepper').mdbStepper();
+    })
+
+    $(document).ready(function() {
+      $('.mdb-select').materialSelect();
+    });
+
+    function nextStep() {
+      //checkData(function(value) {
+        //if(!value){
+          //console.log('not valid')
+          //$('#install-stepper').destroyFeedback();
+       // } else {
+          console.log('valid')
+          $('#install-stepper').nextStep();
+       // }
+      //});
+      
+    }
+
+    function checkData(cb) {
+      var forms = document.getElementsByClassName('validate');
+      var formValid = true;
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.classList.add('was-validated');
+        console.log(form.validity)
+        if(!form.validity.valid)
+          formValid = false;
+          return;
+      });
+      return cb(formValid);
+    }
+  </script>
+{% endblock %}

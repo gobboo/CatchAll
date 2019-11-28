@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+
+
+{% block body %}
+{% include 'header.html' %}
+
+<div id="container-fluid" style="height: 100%;">
+
+  <div class="d-flex flex-row justify-content-center align-items-center login-form" style="height: 100%;">
+    <div class="card" style="width: 380px;">
+      <h5 class="card-header primary-color white-text text-center py-4">
+        <strong>Login</strong>
+      </h5>
+    
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="alert alert-danger text-center mb-0" role="alert">
+            {% for message in messages %}
+            {{ message }}
+            {% endfor %}
+        </div>
+        {% endif %}
+      {% endwith %}
+      
+      <!--Card content-->
+      <div class="card-body px-lg-5 pt-0">
+    
+        <!-- Form -->
+        <form class="text-center" style="color: #757575;" action="/login" method="POST">
+          {{ form.csrf_token }}
+          <div class="md-form">
+            {{ form.username(class_="form-control") }}
+            {{ form.username.label }}
+          </div>
+    
+          <div class="md-form">
+            {{ form.password(class_="form-control", type="password") }}
+            {{ form.password.label }}
+          </div>
+    
+          <!-- Sign in button -->
+          <button class="btn btn-primary btn-block my-4 waves-effect z-depth-0" type="submit">Sign in</button>
+        </form>
+        <!-- Form -->
+    
+      </div>
+    
+    </div>
+    <!-- Material form login -->
+  </div>
+</div>
+{% endblock %}
