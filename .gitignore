@@ -1,13 +1,13 @@
-**/*.logs
-**/*.db
-**/*.pyc
-
-client/instance
-client/.webassets-cache
+#Client files
+client/logs
 client/env
+client/instance
+client/catchall/*.pyc
 client/catchall/__pycache__
+client/catchall/flaskapp.db
 
+#Server files
 server/env
 server/catchall/__pycache__
-server/catchall/face_cache/*.fe
-server/catchall/face_database
+server/catchall/face_cache/
+server/catchall/face_database/

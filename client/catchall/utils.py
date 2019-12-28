@@ -5,6 +5,7 @@ import psutil
 from datetime import datetime, time
 from wireless import Wireless
 from catchall import app
+import traceback
 
 wireless = Wireless()
 
@@ -14,13 +15,8 @@ def getWifiList():
   if len(interfaces) < 1:
       return jsonify(error="You have no compatible wireless interfaces, please contact support!") 
   
-  available_networks = [] # For storing SSIDs
-  cells = Cell.all(interfaces[0]) # Get all networks from first wireless interface
-
   app.logger.info(' * Collecting nearby wireless networks...')
-  for cell in cells: # Loop through each network
-      if(cell.ssid != ""): # Some Cells are empty string, not useful
-          list.append(available_networks, cell.ssid)
+  available_networks = [cell for cell in Cell.all(interfaces[0]) if cell.ssid != ""] # Get all networks
 
   app.logger.info(' * Got all networks, Example: ', available_networks[0])
   return available_networks
@@ -29,7 +25,8 @@ def connect2Network(ssid, password):
   try:
     return wireless.connect(ssid, password)
   except Exception as e:
-    app.logger.error("Error trying to connect to {}, {}".format(ssid, e))
+    exception = traceback.format_exception()
+    app.logger.error("Error trying to connect to {}, {}".format(ssid, exception))
     return False
 
 def deviceInfo():
@@ -45,7 +42,6 @@ def deviceInfo():
 
     
   except Exception as e:
-    print(e)
     info["error"] = "Couldn't get device information."
 
   return info
