@@ -1,17 +1,18 @@
-client/logs
+*.logs
+*.db
+*.pyc
+*.fe
+
 client/env
+client/instance/config.py
+client/catchall/__pycache__/
 
 server/logs
 server/env
-server/catchall/__pycache__
+server/catchall/__pycache__/
 
-server/catchall/face_cache/*.fe
 server/catchall/face_database/*
 
 
-client/instance/config.py
 
-client/catchall/*.db
 
-client/catchall/__pycache__
-client/catchall/*.pyc
