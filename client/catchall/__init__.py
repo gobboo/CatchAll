@@ -9,8 +9,11 @@ from flask_login import LoginManager, login_required
 from PyAccessPoint import pyaccesspoint
 
 from threading import Thread, Lock
-from datetime import timedelta
+from datetime import timedelta, datetime, date
 
+from apscheduler.schedulers.background import BackgroundScheduler
+
+import json
 
 outputFrame = None
 lock = Lock()
@@ -27,7 +30,7 @@ loginManager.init_app(app)
 
 #Setup Databases
 db = SQLAlchemy(app)
-from .models import User, Config
+from .models import User, Config, Stat
 
 #Authentication config and stuff
 wifiNetworks = [(ssid, ssid) for ssid in getWifiList()]
@@ -64,7 +67,13 @@ def videoGen():
 def home():
   dInfo = deviceInfo()
 
-  return render_template('index.html', deviceData=dInfo)
+  today = datetime.today()
+  offset = (today.weekday() + 1) % 7
+  last_sunday = today - timedelta(days=offset)
+
+ # app.logger.info(datetime.timestamp(last_sunday))
+  statInfo = Stat.query.filter(Stat.date > datetime.timestamp(last_sunday)).order_by(Stat.date.desc()).limit(7).all()
+  return render_template('index.html', deviceData=dInfo, statData=statInfo)
 
 @app.route('/feed')
 @login_required
@@ -111,12 +120,15 @@ def config_setting(key):
             return None
 
 class CustomStart(Server):
+
   if not db.session.query(Config.query.filter_by(name='default').exists()).scalar() or db.session.query(Config.query.filter_by(panelInstalled=False).exists()).scalar():
     try:
       access_point.start()
       app.logger.info(" * Wireless access point started.")
     except Exception as e:
       app.logger.error(" * Failed to start wireless access point! Cannot continue. {}".format(e))
+
+
 
   def __call__(self, app, *args, **kwargs):
     return Server.__call__(self, app, *args, **kwargs)

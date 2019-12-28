@@ -1,8 +1,10 @@
 import cv2
 import socket, pickle, time
 from threading import Thread
-from catchall import app
+from catchall import app, db
+from .models import Stat
 from notify_run import Notify
+from datetime import datetime
 
 class VideoCamera(object):
     def __init__(self):
@@ -36,7 +38,7 @@ class VideoCamera(object):
         self.video.release()
 
     def connect(self):
-        self.s.settimeout(5)
+        #self.s.settimeout(5)
         try:
             self.s.connect((self.ip, self.port))
             self.connected = True
@@ -54,12 +56,28 @@ class VideoCamera(object):
         #Check if face has been present for x seconds
         #Alert user
         if time.time() > self.timer:
-            print("Test")
+            app.logger.info("Found " + str(self.faces) + " Faces at the door with the name: " + name)
             self.timer = 999999999999
+            
             if name == "Unknown":
                 self.notify.send('Somebody unknown is at your door!')
             else:
                 self.notify.send(name + " Is at your door !")
+            
+            #Check to see if there is a value for today
+            #If so update to add new total ring and ring by + 1
+            #If not then create a new one and use total rings of the last result and set rings to 0
+            
+            todayQuery = Stat.query.order_by(Stat.date.desc()).limit(1).all()
+
+            if datetime.fromtimestamp(round(float(todayQuery[0].date))).date() == datetime.now().date():
+                todayQuery[0].total_rings = todayQuery[0].total_rings + 1
+                todayQuery[0].rings = todayQuery[0].rings + 1
+                db.session.commit()
+            else:
+                db.session.add(Stat(total_rings=todayQuery[0].total_rings + 1, rings=1, date=datetime.timestamp(datetime.now())))
+                db.session.commit()
+            
 
 
     def get_face(self):
@@ -128,8 +146,6 @@ class VideoCamera(object):
                 cv2.rectangle(frame, (left, bottom + size[0][1]), (right, bottom), (0, 0, 255), cv2.FILLED)
                 cv2.putText(frame, name, (left + 6, bottom + size[0][1]), font, 1.0, (255, 255, 255), 1)                
 
-                print(self.timer)
-                print(time.time())
                 self.alert_user(name)
                     
             

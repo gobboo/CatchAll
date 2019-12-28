@@ -2,7 +2,7 @@ from catchall import app, db
 from passlib.apps import custom_app_context as pwd_context
 
 from flask_login import UserMixin
-
+from datetime import datetime
 
 class User(UserMixin, db.Model):
   id = db.Column(db.Integer, primary_key=True)
@@ -36,5 +36,11 @@ class Config(db.Model):
 
   def __repr__(self):
     return '<Config %r>' % self.id
+
+class Stat(db.Model):
+  id = db.Column(db.Integer, primary_key=True)
+  total_rings = db.Column(db.Integer, default=0)
+  rings = db.Column(db.Integer, default=0)
+  date = db.Column(db.String, default=datetime.timestamp(datetime.now()))
 
 db.create_all()
