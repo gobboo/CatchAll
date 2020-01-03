@@ -22,12 +22,7 @@ def getWifiList():
   return available_networks
 
 def connect2Network(ssid, password):
-  try:
     return wireless.connect(ssid, password)
-  except Exception as e:
-    exception = traceback.format_exception()
-    app.logger.error("Error trying to connect to {}, {}".format(ssid, exception))
-    return False
 
 def deviceInfo():
   info = {}

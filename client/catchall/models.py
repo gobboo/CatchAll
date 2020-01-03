@@ -25,17 +25,11 @@ class User(UserMixin, db.Model):
 
     return user
 
-  def __repr__(self):
-    return '<User %r>' % self.id
-
 class Config(db.Model):
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String, unique=True, default="default")
   panelInstalled = db.Column(db.Boolean, default=True)
   active = db.Column(db.Boolean, unique=False, default=False)
-
-  def __repr__(self):
-    return '<Config %r>' % self.id
 
 class Stat(db.Model):
   id = db.Column(db.Integer, primary_key=True)

@@ -15,6 +15,9 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 import json
 
+__version__ = '0.1.0'
+
+
 outputFrame = None
 lock = Lock()
 
@@ -121,7 +124,7 @@ def config_setting(key):
 
 class CustomStart(Server):
 
-  if not db.session.query(Config.query.filter_by(name='default').exists()).scalar() or db.session.query(Config.query.filter_by(panelInstalled=False).exists()).scalar():
+  if not db.session.query(Config.query.filter_by(name='default').exists()).scalar() or not Config.query.filter_by(panelInstalled=False):
     try:
       access_point.start()
       app.logger.info(" * Wireless access point started.")
